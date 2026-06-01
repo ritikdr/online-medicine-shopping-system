@@ -16,19 +16,15 @@ import java.time.LocalDate;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Medicine {
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String name;
-    private double price;
-    private String companyName;
-    private String category;
+    private Long customerId;
+    private Long medicineId;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private LocalDate manufacturingDate;
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private LocalDate expiryDate;
+    private LocalDate orderDate;
+    private double totalAmount;
 }

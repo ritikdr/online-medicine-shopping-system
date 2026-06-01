@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AdminServer {
@@ -15,6 +16,10 @@ public class AdminServer {
 
     public List<Admin> getAllAdmin() {
         return adminRepository.findAll();
+    }
+
+    public Optional<Admin> findAdminById(Long id) {
+        return adminRepository.findById(id);
     }
 
     public Admin saveAdmin(Admin admin) {

@@ -12,8 +12,8 @@ import lombok.NonNull;
 @AllArgsConstructor
 public class Admin {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String name;
     @Column(unique = true, nullable = false)
     private String email;
