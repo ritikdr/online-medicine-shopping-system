@@ -3,6 +3,8 @@ package onlineMedicineshoppingSystem.demo.controller;
 import onlineMedicineshoppingSystem.demo.entity.Admin;
 import onlineMedicineshoppingSystem.demo.server.AdminServer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,23 +18,30 @@ public class AdminController {
     private AdminServer adminServer;
 
     @GetMapping("")
-    public List<Admin> getAllAdmin() {
-        return adminServer.getAllAdmin();
+    public ResponseEntity<List<Admin>> getAllAdmin() {
+        List<Admin> list = adminServer.getAllAdmin();
+        return  ResponseEntity.ok(list);
     }
 
     @GetMapping("/{Id}")
-    public Optional<Admin> findAdminByID(@PathVariable("Id") Long id) {
-        return adminServer.findAdminById(id);
+    public ResponseEntity<?> findAdminByID(@PathVariable("Id") Long id) {
+        Optional<Admin> admin = adminServer.findAdminById(id);
+        if(admin.isPresent()) {
+            return new ResponseEntity<>(admin, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/save")
-    public Admin saveAdmin(@RequestBody Admin admin) {
-        return adminServer.saveAdmin(admin);
+    public ResponseEntity<Admin> saveAdmin(@RequestBody Admin admin) {
+        Admin saveAdmin = adminServer.saveAdmin(admin);
+        return ResponseEntity.ok(saveAdmin);
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteById(@PathVariable Long id) {
+    public ResponseEntity<?> deleteById(@PathVariable Long id) {
         adminServer.deleteAdminById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

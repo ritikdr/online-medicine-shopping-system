@@ -3,6 +3,8 @@ package onlineMedicineshoppingSystem.demo.controller;
 import onlineMedicineshoppingSystem.demo.entity.Medicine;
 import onlineMedicineshoppingSystem.demo.server.MedicineServer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,22 +18,29 @@ public class MedicineController {
     private MedicineServer medicineServer;
 
     @GetMapping("")
-    public List<Medicine> getAllMedicines() {
-        return medicineServer.getAllMedicines();
+    public ResponseEntity<List<Medicine>> getAllMedicines() {
+        List<Medicine> list = medicineServer.getAllMedicines();
+        return ResponseEntity.ok(list);
     }
 
     @GetMapping("/{id}")
-    public Optional<Medicine> findMedicineByID(@PathVariable Long id) {
-        return medicineServer.findMedicineById(id);
+    public ResponseEntity<?> findMedicineByID(@PathVariable Long id) {
+        Optional<Medicine> medicine = medicineServer.findMedicineById(id);
+        if(medicine.isPresent()) {
+            return new ResponseEntity<>(medicine, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/save")
-    public Medicine saveMedicine(@RequestBody Medicine medicine) {
-        return medicineServer.saveMedicine(medicine);
+    public ResponseEntity<Medicine> saveMedicine(@RequestBody Medicine medicine) {
+        Medicine saveMedicine = medicineServer.saveMedicine(medicine);
+        return ResponseEntity.ok(saveMedicine);
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteById(@PathVariable Long id) {
+    public ResponseEntity<?> deleteById(@PathVariable Long id) {
         medicineServer.deleteMedicineById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

@@ -3,6 +3,8 @@ package onlineMedicineshoppingSystem.demo.controller;
 import onlineMedicineshoppingSystem.demo.entity.Order;
 import onlineMedicineshoppingSystem.demo.server.OrderServer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,22 +18,29 @@ public class OrderController {
     private OrderServer orderServer;
 
     @GetMapping("")
-    public List<Order> getAllOrder() {
-        return orderServer.getAllOrder();
+    public ResponseEntity<List<Order>> getAllOrder() {
+        List<Order> list = orderServer.getAllOrder();
+        return ResponseEntity.ok(list);
     }
 
     @GetMapping("/{id}")
-    public Optional<Order> getOrderByID(@PathVariable("id") Long id) {
-        return orderServer.findOrderById(id);
+    public ResponseEntity<?> getOrderByID(@PathVariable("id") Long id) {
+        Optional<Order> order = orderServer.findOrderById(id);
+        if(order.isPresent()) {
+            return new ResponseEntity<>(order, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/save")
-    public Order saveOrder(@RequestBody Order order) {
-        return orderServer.saveOrder(order);
+    public ResponseEntity<Order> saveOrder(@RequestBody Order order) {
+        Order saveOrder = orderServer.saveOrder(order);
+        return ResponseEntity.ok(saveOrder);
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteById(@PathVariable Long id) {
+    public ResponseEntity<?> deleteById(@PathVariable Long id) {
         orderServer.deleteOrderById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
