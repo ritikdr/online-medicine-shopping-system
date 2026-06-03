@@ -3,6 +3,9 @@ package onlineMedicineshoppingSystem.demo.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Entity
 @NoArgsConstructor
@@ -17,6 +20,8 @@ public class Customer {
     private String email;
     @Column(nullable = false)
     private String password;
+
+//    private List<Order> myOrder = new ArrayList<>();
 
 }
 
