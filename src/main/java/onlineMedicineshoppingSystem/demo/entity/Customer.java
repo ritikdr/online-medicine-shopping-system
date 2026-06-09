@@ -14,12 +14,14 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String name;
+    private String userName;
 
-    @Column(unique = true, nullable = false)
-    private String email;
     @Column(nullable = false)
     private String password;
+    @Column(unique = true, nullable = false)
+    private String email;
+    private String phone;
+    private String address;
 
 //    private List<Order> myOrder = new ArrayList<>();
 

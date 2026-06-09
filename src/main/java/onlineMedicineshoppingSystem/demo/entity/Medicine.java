@@ -18,12 +18,14 @@ public class Medicine {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    private double price;
-    private String companyName;
+    private String description;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
     private LocalDate manufacturingDate;
     private LocalDate expiryDate;
+    private double price;
+    private String companyName;
+    private Integer stock;
 }
