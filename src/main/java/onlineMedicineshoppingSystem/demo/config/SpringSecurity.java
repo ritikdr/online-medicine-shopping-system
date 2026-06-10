@@ -1,9 +1,34 @@
 package onlineMedicineshoppingSystem.demo.config;
 
+import lombok.Builder;
+import onlineMedicineshoppingSystem.demo.repository.CustomerRepository;
+import onlineMedicineshoppingSystem.demo.server.CustomerDetailServerImp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 public class SpringSecurity {
 
     @Autowired
-    private
+    private CustomerDetailServerImp customerDetailServerImp;
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests(auth -> auth
+                .requestMatchers("/customer/**").authenticated()
+                .anyRequest().permitAll()
+        ).httpBasic(Customizer.withDefaults())
+                .csrf(csrf -> csrf.Disable());
+
+        return  http.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }
