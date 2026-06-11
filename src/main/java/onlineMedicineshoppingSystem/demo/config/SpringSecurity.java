@@ -1,7 +1,5 @@
 package onlineMedicineshoppingSystem.demo.config;
 
-import lombok.Builder;
-import onlineMedicineshoppingSystem.demo.repository.CustomerRepository;
 import onlineMedicineshoppingSystem.demo.server.CustomerDetailServerImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +20,7 @@ public class SpringSecurity {
                 .requestMatchers("/customer/**").authenticated()
                 .anyRequest().permitAll()
         ).httpBasic(Customizer.withDefaults())
-                .csrf(csrf -> csrf.Disable());
+                .csrf(csrf -> csrf.disable());
 
         return  http.build();
     }
