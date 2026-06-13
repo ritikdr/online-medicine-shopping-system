@@ -2,9 +2,12 @@ package onlineMedicineshoppingSystem.demo.controller;
 
 import onlineMedicineshoppingSystem.demo.entity.Customer;
 import onlineMedicineshoppingSystem.demo.server.CustomerServer;
+import onlineMedicineshoppingSystem.demo.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +19,9 @@ public class CustomerController {
 
     @Autowired
     private CustomerServer customerServer;
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
     @GetMapping("")
     public ResponseEntity<List<Customer>> getAllCustomers() {
@@ -32,15 +38,21 @@ public class CustomerController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<Customer> saveCustomer(@RequestBody Customer customer) {
-        Customer saveCustomer = customerServer.saveCustomer(customer);
-        return ResponseEntity.ok(saveCustomer);
+    @PutMapping
+    public ResponseEntity<?> updateCustomer(@RequestBody Customer customer) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        Customer customerIndb = customerServer.findCustomerByCustomerName(userName);
+        customerIndb.setUserName(customer.getUserName());
+        customerIndb.setPassword(customer.getPassword());
+        customerServer.saveNewCustomer(customerIndb);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteById(@PathVariable Long id) {
-        customerServer.deleteCustomerById(id);
+    @DeleteMapping
+    public ResponseEntity<?> deleteById() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        customerRepository.deleteByCustomerName(authentication.getName());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

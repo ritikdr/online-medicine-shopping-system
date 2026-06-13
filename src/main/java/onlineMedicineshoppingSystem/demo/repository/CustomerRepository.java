@@ -4,5 +4,6 @@ import onlineMedicineshoppingSystem.demo.entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
-    Customer findByUserName(String userName);
+    Customer findCustomerByCustomerName(String userName);
+    Customer deleteByCustomerName(String userName);
 }

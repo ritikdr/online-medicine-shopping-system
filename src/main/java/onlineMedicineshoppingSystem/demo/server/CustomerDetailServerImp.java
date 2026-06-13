@@ -17,7 +17,7 @@ public class CustomerDetailServerImp implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        Customer customer = customerRepository.findByUserName(userName);
+        Customer customer = customerRepository.findCustomerByCustomerName(userName);
         if(customer != null) {
             return org.springframework.security.core.userdetails.User.builder()
                     .username(customer.getUserName())
