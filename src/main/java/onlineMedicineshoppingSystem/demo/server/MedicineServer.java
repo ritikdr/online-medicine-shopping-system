@@ -30,4 +30,12 @@ public class MedicineServer {
     public void deleteMedicineById(Long id) {
         medicineRepository.deleteById(id);
     }
+
+    public List<Medicine> searchMedicine(String name) {
+        return medicineRepository.findByNameContainingIgnoreCase(name);
+    }
+
+    public List<Medicine> getMedicinesByCategory(Long categoryId) {
+        return medicineRepository.findByCategoryId(categoryId);
+    }
 }

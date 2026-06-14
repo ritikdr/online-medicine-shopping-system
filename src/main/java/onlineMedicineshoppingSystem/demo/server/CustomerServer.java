@@ -26,8 +26,8 @@ public class CustomerServer {
         return customerRepository.findById(id);
     }
 
-    public Customer findCustomerByCustomerName(String userName) {
-        return customerRepository.findCustomerByCustomerName(userName);
+    public Customer findCustomerByUserName(String userName) {
+        return customerRepository.findByUserName(userName);
     }
 
     public Customer saveCustomer(Customer customer) {

@@ -43,4 +43,17 @@ public class MedicineController {
         medicineServer.deleteMedicineById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Medicine>> searchMedicines(@RequestParam("name") String name) {
+        List<Medicine> list = medicineServer.searchMedicine(name);
+        return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<List<Medicine>> getMedicinesByCategory(@PathVariable Long categoryId) {
+        List<Medicine> list = medicineServer.getMedicinesByCategory(categoryId);
+        return ResponseEntity.ok(list);
+    }
 }

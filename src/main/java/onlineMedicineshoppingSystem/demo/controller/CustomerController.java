@@ -41,8 +41,17 @@ public class CustomerController {
     @PutMapping
     public ResponseEntity<?> updateCustomer(@RequestBody Customer customer) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = authentication.getName();
-        Customer customerIndb = customerServer.findCustomerByCustomerName(userName);
+        System.out.println(authentication.isAuthenticated());
+        System.out.println(authentication.getAuthorities());
+        System.out.println(authentication.getName());
+        System.out.println("Authenticated user: " + authentication.getName());
+
+        Customer customerIndb =
+                customerServer.findCustomerByUserName(authentication.getName());
+
+        System.out.println("Customer found: " + customerIndb);
+//        String userName = authentication.getName();
+//        Customer customerIndb = customerServer.findCustomerByUserName(userName);
         customerIndb.setUserName(customer.getUserName());
         customerIndb.setPassword(customer.getPassword());
         customerServer.saveNewCustomer(customerIndb);
@@ -52,7 +61,7 @@ public class CustomerController {
     @DeleteMapping
     public ResponseEntity<?> deleteById() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        customerRepository.deleteByCustomerName(authentication.getName());
+        customerRepository.deleteByUserName(authentication.getName());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

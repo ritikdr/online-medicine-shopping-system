@@ -28,4 +28,8 @@ public class OrderServer {
     public void deleteOrderById(Long id) {
         orderRepository.deleteById(id);
     }
+
+    public List<Order> getOrderByCustomerId(Long customerId) {
+        return orderRepository.findByCustomerId(customerId);
+    }
 }
