@@ -3,6 +3,7 @@ package onlineMedicineshoppingSystem.demo.controller;
 import onlineMedicineshoppingSystem.demo.entity.Customer;
 import onlineMedicineshoppingSystem.demo.server.CustomerServer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,8 +17,8 @@ public class PublicController {
     private CustomerServer customerServer;
 
     @PostMapping("/create-customer")
-    public ResponseEntity<Customer> saveCustomer(@RequestBody Customer customer) {
-        Customer saveCustomer = customerServer.saveCustomer(customer);
-        return ResponseEntity.ok(saveCustomer);
+    public ResponseEntity<?> saveCustomer(@RequestBody Customer customer) {
+        customerServer.saveCustomer(customer);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

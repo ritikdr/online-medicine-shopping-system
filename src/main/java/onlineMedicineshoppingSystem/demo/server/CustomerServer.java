@@ -30,8 +30,8 @@ public class CustomerServer {
         return customerRepository.findByUserName(userName);
     }
 
-    public Customer saveCustomer(Customer customer) {
-        return customerRepository.save(customer);
+    public void saveCustomer(Customer customer) {
+        customerRepository.save(customer);
     }
 
     public void saveNewCustomer(Customer customer) {
