@@ -1,7 +1,9 @@
 package onlineMedicineshoppingSystem.demo.controller;
 
 import onlineMedicineshoppingSystem.demo.entity.Admin;
+import onlineMedicineshoppingSystem.demo.entity.Customer;
 import onlineMedicineshoppingSystem.demo.server.AdminServer;
+import onlineMedicineshoppingSystem.demo.server.CustomerServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,9 @@ public class AdminController {
     @Autowired
     private AdminServer adminServer;
 
+    @Autowired
+    private CustomerServer customerServer;
+
     @GetMapping("")
     public ResponseEntity<List<Admin>> getAllAdmin() {
         List<Admin> list = adminServer.getAllAdmin();
@@ -28,6 +33,15 @@ public class AdminController {
         Optional<Admin> admin = adminServer.findAdminById(id);
         if(admin.isPresent()) {
             return new ResponseEntity<>(admin, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("get-allUser")
+    public ResponseEntity<?> getAllUser(Customer customer) {
+        List<Customer> all = customerServer.getAllCustomers();
+        if(all != null && !all.isEmpty()) {
+            return new ResponseEntity<>(all, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
